@@ -1,0 +1,45 @@
+version: '3'
+services:
+#  app:
+#    image: php:7.4
+#    restart: always
+#    volumes:
+#      - .:/app
+#    working_dir: /app
+#    ports:
+#      - "8000:8000"
+#    expose:
+#      - "8000"
+#    entrypoint:
+#      - bin/console
+#      - server:run
+#      - "0.0.0.0:8000"
+  db:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    expose:
+      - "3307"
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=app_db
+      - MYSQL_USER=db_user
+      - MYSQL_PASSWORD=db_pass
+  #  apache:
+  #    build: './apache/'
+  #    depends_on:
+  #      - php
+  #      - mysql
+  #    networks:
+  #      - frontend
+  #      - backend
+  #    ports:
+  #      - "8080:80"
+  #    volumes:
+  #      - ./public_html/:/var/www/html/
+
+volumes:
+  db_data: {}
