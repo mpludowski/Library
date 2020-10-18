@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\Reader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -69,6 +70,26 @@ class BookRepository extends ServiceEntityRepository
         isset($data['name']) ? $book->setName($data['name']) : null;
         isset($data['author']) ? $book->setAuthor($data['author']) : null;
         isset($data['to_sell']) ? $book->setToSell($data['to_sell']) : null;
+
+        $this->em->persist($book);
+        $this->em->flush();
+    }
+
+    public function borrowBook(int $bookId, int $readerId)
+    {
+        $book = $this->find($bookId);
+        $reader = $this->em->getRepository(Reader::class)->find($readerId);
+
+        $book->setBorrowedTo($reader);
+
+        $this->em->persist($book);
+        $this->em->flush();
+    }
+
+    public function returnBook(int $bookId)
+    {
+        $book = $this->find($bookId);
+        $book->setBorrowedTo(null);
 
         $this->em->persist($book);
         $this->em->flush();

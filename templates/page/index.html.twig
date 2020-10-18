@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PageController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ controller_name }}!</h1>
+
+    <ul>
+        <li><code><a href="{{ '/Users/mpludowski/workspace/recruitment/elib/src/Controller/PageController.php'|file_link(0) }}">src/Controller/PageController.php</a></code></li>
+        <li><code><a href="{{ '/Users/mpludowski/workspace/recruitment/elib/templates/page/index.html.twig'|file_link(0) }}">templates/page/index.html.twig</a></code></li>
+    </ul>
+</div>
+{% endblock %}

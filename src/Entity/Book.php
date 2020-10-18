@@ -35,6 +35,11 @@ class Book
      */
     private $to_sell;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Reader::class, inversedBy="borrowed_books")
+     */
+    private $borrowed_to;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,18 @@ class Book
     public function setToSell(bool $to_sell): self
     {
         $this->to_sell = $to_sell;
+
+        return $this;
+    }
+
+    public function getBorrowedTo(): ?Reader
+    {
+        return $this->borrowed_to;
+    }
+
+    public function setBorrowedTo(?Reader $borrowed_to): self
+    {
+        $this->borrowed_to = $borrowed_to;
 
         return $this;
     }

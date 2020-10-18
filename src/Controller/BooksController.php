@@ -6,7 +6,6 @@ use App\Entity\Book;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +30,6 @@ class BooksController extends AbstractController
 
     /**
      * @Route("/books", name="list-books", methods={"GET"})
-     * @param SerializerInterface $serializer
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function listBooks()
@@ -45,8 +43,6 @@ class BooksController extends AbstractController
      * @Route("/books", name="add-book", methods={"POST"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function addBook(Request $request)
     {
@@ -79,6 +75,8 @@ class BooksController extends AbstractController
     /**
      * @Route("/books/{id}", name="update-book", methods={"PUT"})
      * @param int $id
+     * @param Request $request
+     * @return JsonResponse
      */
     public function updateBook(int $id, Request $request)
     {
@@ -92,5 +90,30 @@ class BooksController extends AbstractController
         return $this->json([
             'id' => $id,
         ]);
+    }
+
+    /**
+     * @Route("/books/{bookId}/readers/{readerId}", name="borrow-book", methods={"PUT"})
+     * @param int $bookId
+     * @param int $readerId
+     * @return JsonResponse
+     */
+    public function borrowBook(int $bookId, int $readerId)
+    {
+        $this->repo->borrowBook($bookId, $readerId);
+
+        return $this->json([]);
+    }
+
+    /**
+     * @Route("/books/{bookId}/return", name="return-book", methods={"PUT"})
+     * @param int $bookId
+     * @return JsonResponse
+     */
+    public function returnBook(int $bookId)
+    {
+        $this->repo->returnBook($bookId);
+
+        return $this->json([]);
     }
 }
